@@ -1,9 +1,11 @@
+rm(list = ls())
 # library -----------------------------------------------------------------
 library(dplyr)
 library(butteR)
 library(stringr)
 library(srvyr)
 library(survey)
+source("scripts/functions.R")
 
 dis_ag_lvl <- c("region","modality","received_aid","displacement")[1]
 
@@ -19,7 +21,8 @@ population <-read.csv("dap/unhcr_hh/population.csv",na.strings = c(""," ",NA),st
 if (dis_ag_lvl=="region"){
   
 displacement_type <- c("host","idp")
-df_region <-  df_with_regions %>% dplyr::filter(list_displacement %in% displacement_type)
+df_region <-  df_with_regions %>% dplyr::filter(list_displacement %in% displacement_type | 
+                                                  consent_response.received_aid_mark_2 == "no")
 
 population_group <-population %>% dplyr::filter(type == "population_group")
 weights_pop_group <- survey_weight(df = df_region,df_strata = "list_displacement",
@@ -61,7 +64,6 @@ df_region <- df_region %>% left_join(weights_pop_non_beneficiary)
   
 }
 
-}
 
 
 
