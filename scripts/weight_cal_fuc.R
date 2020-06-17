@@ -12,4 +12,4 @@ sf_with_weights<-df_region %>%
 }
 
 
-a <- survey_weight("list_displacement","strata","population",pop = pop2)
+# a <- survey_weight("list_displacement","strata","population",pop = pop2)
